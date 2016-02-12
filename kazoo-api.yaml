@@ -20,11 +20,13 @@ consumes:
   - text/xml
   - text/csv
   - application/octet-stream
+  - image/*
 produces:
   - application/json
   - text/xml
   - text/csv
   - application/octet-stream
+  - image/*
 
 parameters:
   account_id:
@@ -267,6 +269,1107 @@ paths:
             "An object of deleted account"
           schema:
             $ref: '#/definitions/account'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/access_lists:
+    get:
+      summary: Get access lists
+      description:
+        "SBC-level per-account access lists allow setting individual
+        IP-based access filtering rules which significantly increases
+        security for users working on-premise."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access lists"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create access list
+      description:
+        "Create access list"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "New access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '201':
+          description:
+            "An object of new access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/access_lists/{access_list_id}:
+    get:
+      summary: Get access list
+      description:
+        "Get access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update access list
+      description:
+        "Update access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "Updated access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update access list
+      description:
+        "Update access_list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "Updates of the access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "An object of updated access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete access list
+      description:
+        "Delete access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "An object of deleted access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/apps_store:
+    get:
+      summary: Get apps
+      description:
+        "Apps Store list apps allowed by your service plan."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "Apps store"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create app
+      description:
+        "Create app"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: app
+          description:
+            "New app"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/app'
+      tags:
+        - Apps store
+
+      responses:
+        '201':
+          description:
+            "An object of new app"
+          schema:
+            $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/apps_store/blacklist:
+    get:
+      summary: Get apps blacklist
+      description:
+        "Get apps blacklist"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "Apps blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update apps blacklist
+      description:
+        "Update apps blacklist"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: blacklist
+          description:
+            "Updated apps blacklist"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/blacklist'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "App"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/apps_store/{app_id}:
+    get:
+      summary: Get app
+      description:
+        "Get app"
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "App"
+          schema:
+            $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update app
+      description:
+        "Update app"
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: app
+          description:
+            "Updated app"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/app'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "App"
+          schema:
+            $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update app
+      description:
+        "Update app"
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: app
+          description:
+            "Updates of the app"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/app'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "An object of updated app"
+          schema:
+            $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete app
+      description:
+        "Delete app"
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "An object of deleted app"
+          schema:
+            $ref: '#/definitions/app'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/apps_store/{app_id}/icon:
+    get:
+      summary: Get icon app
+      description:
+        "Get icon app"
+      produces:
+        - image/*
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "App"
+          schema:
+            type: "object"
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/apps_store/{app_id}/screenshot/{screenshot_id}:
+    get:
+      summary: Get screenshot app
+      description:
+        "Get screenshot app"
+      produces:
+        - image/*
+      parameters:
+        - name: app_id
+          type: "string"
+          description:
+            "App identifier"
+          in: path
+          required: true
+
+        - name: screenshot_id
+          type: "string"
+          description:
+            "Screenshot identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Apps store
+
+      responses:
+        '200':
+          description:
+            "Screenshot"
+          schema:
+            type: "object"
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/blacklists:
+    get:
+      summary: Get blacklists
+      description:
+        "A blacklist is a map of caller id numbers that can be then apply
+        to the account to block these callers to call the system."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Blacklists
+
+      responses:
+        '200':
+          description:
+            "Blacklists"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create blacklist
+      description:
+        "Create blacklist"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: blacklist
+          description:
+            "New blacklist"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/blacklist'
+      tags:
+        - Blacklists
+
+      responses:
+        '201':
+          description:
+            "An object of new blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/blacklists/{blacklist_id}:
+    get:
+      summary: Get blacklist
+      description:
+        "Get blacklist"
+      produces:
+        - application/json
+      parameters:
+        - name: blacklist_id
+          type: "string"
+          description:
+            "Blacklist identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Blacklists
+
+      responses:
+        '200':
+          description:
+            "Blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update blacklist
+      description:
+        "Update blacklist"
+      produces:
+        - application/json
+      parameters:
+        - name: blacklist_id
+          type: "string"
+          description:
+            "Blacklist identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: blacklist
+          description:
+            "Updated blacklist"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/blacklist'
+      tags:
+        - Blacklists
+
+      responses:
+        '200':
+          description:
+            "Blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update blacklist
+      description:
+        "Update blacklist"
+      produces:
+        - application/json
+      parameters:
+        - name: blacklist_id
+          type: "string"
+          description:
+            "Blacklist identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: blacklist
+          description:
+            "Updates of the blacklist"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/blacklist'
+      tags:
+        - Blacklists
+
+      responses:
+        '200':
+          description:
+            "An object of updated blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete blacklist
+      description:
+        "Delete blacklist"
+      produces:
+        - application/json
+      parameters:
+        - name: blacklist_id
+          type: "string"
+          description:
+            "Blacklist identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Blacklists
+
+      responses:
+        '200':
+          description:
+            "An object of deleted blacklist"
+          schema:
+            $ref: '#/definitions/blacklist'
 
         '405':
           description:
@@ -1598,6 +2701,352 @@ paths:
           schema:
             type: "object"
 
+  /accounts/{account_id}/devices/{device_id}/access_lists:
+    get:
+      summary: Get access lists
+      description:
+        "SBC-level per-device access lists allow setting individual
+        IP-based access filtering rules which significantly increases
+        security for users working on-premise."
+      produces:
+        - application/json
+      parameters:
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access lists"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create access list
+      description:
+        "Create access list"
+      produces:
+        - application/json
+      parameters:
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "New access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '201':
+          description:
+            "An object of new access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/devices/{device_id}/access_lists/{access_list_id}:
+    get:
+      summary: Get access list
+      description:
+        "Get access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update access list
+      description:
+        "Update access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "Updated access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "Access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update access list
+      description:
+        "Update access_list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: access_list
+          description:
+            "Updates of the access list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/access_list'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "An object of updated access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete access list
+      description:
+        "Delete access list"
+      produces:
+        - application/json
+      parameters:
+        - name: access_list_id
+          type: "string"
+          description:
+            "Access list identifier"
+          in: path
+          required: true
+
+        - name: device_id
+          type: "string"
+          description:
+            "Device identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Access lists
+
+      responses:
+        '200':
+          description:
+            "An object of deleted access list"
+          schema:
+            $ref: '#/definitions/access_list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
   /accounts/{account_id}/directories:
     get:
       summary: Get directories lists
@@ -2487,6 +3936,309 @@ paths:
             "An object of deleted faxbox"
           schema:
             $ref: '#/definitions/faxbox'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/lists:
+    get:
+      summary: Get lists
+      description:
+        "A list is a map of caller id numbers that can be then apply
+        to the account to block these callers to call the system."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Lists
+
+      responses:
+        '200':
+          description:
+            "Lists"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create list
+      description:
+        "Create list"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: list
+          description:
+            "New list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/list'
+      tags:
+        - Lists
+
+      responses:
+        '201':
+          description:
+            "An object of new list"
+          schema:
+            $ref: '#/definitions/list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/lists/{list_id}:
+    get:
+      summary: Get list
+      description:
+        "Get list"
+      produces:
+        - application/json
+      parameters:
+        - name: list_id
+          type: "string"
+          description:
+            "List identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Lists
+
+      responses:
+        '200':
+          description:
+            "List"
+          schema:
+            $ref: '#/definitions/list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update list
+      description:
+        "Update list"
+      produces:
+        - application/json
+      parameters:
+        - name: list_id
+          type: "string"
+          description:
+            "List identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: list
+          description:
+            "Updated list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/list'
+      tags:
+        - Lists
+
+      responses:
+        '200':
+          description:
+            "List"
+          schema:
+            $ref: '#/definitions/list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update list
+      description:
+        "Update list"
+      produces:
+        - application/json
+      parameters:
+        - name: list_id
+          type: "string"
+          description:
+            "List identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: list
+          description:
+            "Updates of the list"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/list'
+      tags:
+        - Lists
+
+      responses:
+        '200':
+          description:
+            "An object of updated list"
+          schema:
+            $ref: '#/definitions/list'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete list
+      description:
+        "Delete list"
+      produces:
+        - application/json
+      parameters:
+        - name: list_id
+          type: "string"
+          description:
+            "List identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Lists
+
+      responses:
+        '200':
+          description:
+            "An object of deleted list"
+          schema:
+            $ref: '#/definitions/list'
 
         '405':
           description:
@@ -3717,6 +5469,613 @@ paths:
           schema:
             type: "object"
 
+  /accounts/{account_id}/queues:
+    get:
+      summary: Get queues
+      description:
+        "When you have more callers than agents to handle those calls, you
+        can create a call queue to put the callers on hold while agents
+        process callers in the order they arrived in the call queue."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Queues
+
+      responses:
+        '200':
+          description:
+            "Queues"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create queue
+      description:
+        "Create queue"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: queue
+          description:
+            "New queue"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/queue'
+      tags:
+        - Queues
+
+      responses:
+        '201':
+          description:
+            "An object of new queue"
+          schema:
+            $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/queues/{queue_id}:
+    get:
+      summary: Get queue
+      description:
+        "Get queue"
+      produces:
+        - application/json
+      parameters:
+        - name: queue_id
+          type: "string"
+          description:
+            "Queue identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Queues
+
+      responses:
+        '200':
+          description:
+            "Queue"
+          schema:
+            $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update queue
+      description:
+        "Update queue"
+      produces:
+        - application/json
+      parameters:
+        - name: queue_id
+          type: "string"
+          description:
+            "Queue identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: queue
+          description:
+            "Updated queue"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/queue'
+      tags:
+        - Queues
+
+      responses:
+        '200':
+          description:
+            "Queue"
+          schema:
+            $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update queue
+      description:
+        "Update queue"
+      produces:
+        - application/json
+      parameters:
+        - name: queue_id
+          type: "string"
+          description:
+            "Queue identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: queue
+          description:
+            "Updates of the queue"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/queue'
+      tags:
+        - Queues
+
+      responses:
+        '200':
+          description:
+            "An object of updated queue"
+          schema:
+            $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete queue
+      description:
+        "Delete queue"
+      produces:
+        - application/json
+      parameters:
+        - name: queue_id
+          type: "string"
+          description:
+            "Queue identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Queues
+
+      responses:
+        '200':
+          description:
+            "An object of deleted queue"
+          schema:
+            $ref: '#/definitions/queue'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/rates:
+    get:
+      summary: Get rates
+      description:
+        "How much will calls to various prefixes cost, per-minute,
+        if applicable? Manage the rate deck via this API!"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Rates
+
+      responses:
+        '200':
+          description:
+            "Rates"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create rate
+      description:
+        "Create rate"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: rate
+          description:
+            "New rate"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/rate'
+      tags:
+        - Rates
+
+      responses:
+        '201':
+          description:
+            "An object of new rate"
+          schema:
+            $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/rates/{rate_id}:
+    get:
+      summary: Get rate
+      description:
+        "Get rate"
+      produces:
+        - application/json
+      parameters:
+        - name: rate_id
+          type: "string"
+          description:
+            "Rate identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Rates
+
+      responses:
+        '200':
+          description:
+            "Rate"
+          schema:
+            $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update rate
+      description:
+        "Update rate"
+      produces:
+        - application/json
+      parameters:
+        - name: rate_id
+          type: "string"
+          description:
+            "Rate identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: rate
+          description:
+            "Updated rate"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/rate'
+      tags:
+        - Rates
+
+      responses:
+        '200':
+          description:
+            "Rate"
+          schema:
+            $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update rate
+      description:
+        "Update rate"
+      produces:
+        - application/json
+      parameters:
+        - name: rate_id
+          type: "string"
+          description:
+            "Rate identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: rate
+          description:
+            "Updates of the rate"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/rate'
+      tags:
+        - Rates
+
+      responses:
+        '200':
+          description:
+            "An object of updated rate"
+          schema:
+            $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete rate
+      description:
+        "Delete rate"
+      produces:
+        - application/json
+      parameters:
+        - name: rate_id
+          type: "string"
+          description:
+            "Rate identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Rates
+
+      responses:
+        '200':
+          description:
+            "An object of deleted rate"
+          schema:
+            $ref: '#/definitions/rate'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
   /accounts/{account_id}/resources:
     get:
       summary: Get resources
@@ -4002,6 +6361,308 @@ paths:
             "An object of deleted resource"
           schema:
             $ref: '#/definitions/resource'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/service_plans:
+    get:
+      summary: Get service plans
+      description:
+        "This api allow you to service_plan the service plans that you can subscribe to."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Service plans
+
+      responses:
+        '200':
+          description:
+            "Service plans"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/service_plan'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create service plan
+      description:
+        "Create service plan"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: service_plan
+          description:
+            "New service_plan"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/service_plan'
+      tags:
+        - Service plans
+
+      responses:
+        '201':
+          description:
+            "An object of new service_plan"
+          schema:
+            $ref: '#/definitions/service_plan'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/service_plans/{service_plan_id}:
+    get:
+      summary: Get service plan
+      description:
+        "Get service plan"
+      produces:
+        - application/json
+      parameters:
+        - name: service_plan_id
+          type: "string"
+          description:
+            "Service plan identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Service plans
+
+      responses:
+        '200':
+          description:
+            "Service plan"
+          schema:
+            $ref: '#/definitions/service_plan'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update service plan
+      description:
+        "Update service plan"
+      produces:
+        - application/json
+      parameters:
+        - name: service_plan_id
+          type: "string"
+          description:
+            "Service plan identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: service_plan
+          description:
+            "Updated service plan"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/service_plan'
+      tags:
+        - Service plans
+
+      responses:
+        '200':
+          description:
+            "Service plan"
+          schema:
+            $ref: '#/definitions/service_plan'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update service plan
+      description:
+        "Update service plan"
+      produces:
+        - application/json
+      parameters:
+        - name: service_plan_id
+          type: "string"
+          description:
+            "Service plan identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: service_plan
+          description:
+            "Updates of the service plan"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/service_plan'
+      tags:
+        - Service plans
+
+      responses:
+        '200':
+          description:
+            "An object of updated service plan"
+          schema:
+            $ref: '#/definitions/service_plan'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete service plan
+      description:
+        "Delete service plan"
+      produces:
+        - application/json
+      parameters:
+        - name: service_plan_id
+          type: "string"
+          description:
+            "Service plan identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Service plans
+
+      responses:
+        '200':
+          description:
+            "An object of deleted service plan"
+          schema:
+            $ref: '#/definitions/service_plan'
 
         '405':
           description:
@@ -4607,6 +7268,310 @@ paths:
             "An object of deleted temporal rules set"
           schema:
             $ref: '#/definitions/temporal_rules_set'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/token_restrictions:
+    get:
+      summary: Get token_restrictions
+      description:
+        "Token restrictions - set of rules saved in auth token document.
+        These rules grant access to API URIs. If the token document doesn't
+        have any rules then this module won't apply any restrictions to request."
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Token restrictions
+
+      responses:
+        '200':
+          description:
+            "Token restrictions"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/token_restriction'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    put:
+      summary: Create token restriction
+      description:
+        "Create token restriction"
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: token_restriction
+          description:
+            "New token restriction"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/token_restriction'
+      tags:
+        - Token restrictions
+
+      responses:
+        '201':
+          description:
+            "An object of new token restriction"
+          schema:
+            $ref: '#/definitions/token_restriction'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        '400':
+          description:
+            "invalid data"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+  /accounts/{account_id}/token_restrictions/{token_restriction_id}:
+    get:
+      summary: Get token restriction
+      description:
+        "Get token restriction"
+      produces:
+        - application/json
+      parameters:
+        - name: token_restriction_id
+          type: "string"
+          description:
+            "Token restriction identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Token restrictions
+
+      responses:
+        '200':
+          description:
+            "Token restriction"
+          schema:
+            $ref: '#/definitions/token_restriction'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update token restriction
+      description:
+        "Update token restriction"
+      produces:
+        - application/json
+      parameters:
+        - name: token_restriction_id
+          type: "string"
+          description:
+            "Token restriction identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: token_restriction
+          description:
+            "Updated token restriction"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/token_restriction'
+      tags:
+        - Token restrictions
+
+      responses:
+        '200':
+          description:
+            "Token restriction"
+          schema:
+            $ref: '#/definitions/token_restriction'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update token restriction
+      description:
+        "Update token restriction"
+      produces:
+        - application/json
+      parameters:
+        - name: token_restriction_id
+          type: "string"
+          description:
+            "Token restriction identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: token_restriction
+          description:
+            "Updates of the token restriction"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/token_restriction'
+      tags:
+        - Token restrictions
+
+      responses:
+        '200':
+          description:
+            "An object of updated token restriction"
+          schema:
+            $ref: '#/definitions/token_restriction'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete token restriction
+      description:
+        "Delete token restriction"
+      produces:
+        - application/json
+      parameters:
+        - name: token_restriction_id
+          type: "string"
+          description:
+            "Token restriction identifier"
+          in: path
+          required: true
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Token restrictions
+
+      responses:
+        '200':
+          description:
+            "An object of deleted token restriction"
+          schema:
+            $ref: '#/definitions/token_restriction'
 
         '405':
           description:
@@ -5236,6 +8201,227 @@ paths:
           schema:
             type: "object"
 
+  /accounts/{account_id}/whitelabel/domains:
+    get:
+      summary: Get whitelabel
+      description:
+        "Get whitelabel"
+      produces:
+        - application/json
+      parameters:
+        - name: domain
+          type: "string"
+          description:
+            "Domain"
+          in: query
+          required: false
+
+        - name: domain_object
+          description:
+            "Object domain"
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/domain'
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Whitelabel
+
+      responses:
+        '200':
+          description:
+            "An object of whitelabel"
+          schema:
+            $ref: '#/definitions/whitelabel'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    post:
+      summary: Update whitelabel
+      description:
+        "Update whitelabel"
+      produces:
+        - application/json
+      parameters:
+        - name: domain
+          type: "string"
+          description:
+            "Domain"
+          in: query
+          required: false
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: whitelabel
+          description:
+            "Updated whitelabel"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/whitelabel'
+      tags:
+        - Whitelabel
+
+      responses:
+        '200':
+          description:
+            "An object of updated whitelabel"
+          schema:
+            $ref: '#/definitions/whitelabel'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    patch:
+      summary: Update whitelabel
+      description:
+        "Update whitelabel"
+      produces:
+        - application/json
+      parameters:
+        - name: domain
+          type: "string"
+          description:
+            "Domain"
+          in: query
+          required: false
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+
+        - name: whitelabel
+          description:
+            "Updates of the whitelabel"
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/whitelabel'
+      tags:
+        - Whitelabel
+
+      responses:
+        '200':
+          description:
+            "An object of updated whitelabel"
+          schema:
+            $ref: '#/definitions/whitelabel'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
+    delete:
+      summary: Delete whitelabel
+      description:
+        "Delete whitelabel"
+      produces:
+        - application/json
+      parameters:
+        - name: domain
+          type: "string"
+          description:
+            "Domain"
+          in: query
+          required: false
+
+        - name: domain_object
+          description:
+            "Object domain"
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/domain'
+
+        - $ref: '#/parameters/account_id'
+
+        - $ref: '#/parameters/auth_token_header'
+
+        - $ref: '#/parameters/auth_token_query'
+      tags:
+        - Whitelabel
+
+      responses:
+        '200':
+          description:
+            "An object of deleted whitelabel"
+          schema:
+            $ref: '#/definitions/whitelabel'
+
+        '405':
+          description:
+            "method not allowed"
+          schema:
+            type: "object"
+
+        '401':
+          description:
+            "invalid credentials"
+          schema:
+            type: "object"
+
+        default:
+          description:
+            "Unexpected error"
+          schema:
+            type: "object"
+
   /notifications:
     get:
       summary: Get notifications
@@ -5819,6 +9005,41 @@ paths:
             type: "object"
 
 definitions:
+  access_list:
+    title: "ACL Entry"
+    type: "object"
+    description:
+      "Access Control List entries for device or account"
+    required:
+      - cidrs
+      - order
+    additionalProperties: true
+    properties:
+      cidrs:
+        title: "CIDR"
+        type: "array"
+        description:
+          "Classless Inter-Domain Routing IP notation for use on the access lists"
+        items:
+          type: "string"
+          description:
+            "CIDR IP to use on access lists"
+
+      order:
+        title: "Order"
+        type: "string"
+        description:
+          "Allow-Deny or Deny-Allow?"
+        enum:
+          - "allow,deny"
+          - "deny,allow"
+
+      user_agent:
+        title: "User-Agent"
+        type: "string"
+        description:
+          "RegExp to match valid user agent strings"
+
   account:
     title: "Account"
     type: "object"
@@ -6009,6 +9230,160 @@ definitions:
         default: "America/Los_Angeles"
         minLength: 5
         maxLength: 32
+
+  app:
+    title: "Application"
+    type: "object"
+    description:
+      "Appstore applications"
+    required:
+      - api_url
+      - author
+      - i18n
+      - icon
+      - license
+      - name
+      - price
+      - version
+    properties:
+      api_url:
+        title: "Api url"
+        type: "string"
+        description:
+          "Application api url"
+        format: "uri"
+
+      author:
+        title: "Author"
+        type: "string"
+        description:
+          "Application author"
+        minLength: 2
+        maxLength: 64
+
+      i18n:
+        title: "i18n"
+        type: "object"
+        description:
+          "Application source url"
+        properties:
+          '[a-z]{2}\-[A-Z]{2}':
+            type: "object"
+            required:
+              - description
+              - label
+            properties:
+              description:
+                title: "Description"
+                type: "string"
+                minLength: 3
+
+              extended_description:
+                title: "Extended Description"
+                type: "string"
+
+              features:
+                title: "Features"
+                type: "array"
+                items:
+                  type: "string"
+
+              label:
+                title: "Label"
+                type: "string"
+                minLength: 3
+                maxLength: 64
+
+      icon:
+        title: "Icon"
+        type: "string"
+        description:
+          "Application icon"
+
+      license:
+        title: "License"
+        type: "string"
+        description:
+          "Application license"
+
+      name:
+        title: "Name"
+        type: "string"
+        description:
+          "Application name"
+        minLength: 3
+        maxLength: 64
+
+      price:
+        title: "Price"
+        type: "integer"
+        description:
+          "Application price"
+        minimum: 0
+
+      screenshots:
+        title: "Screenshots"
+        type: "array"
+        items:
+          type: "string"
+
+      source_url:
+        title: "Source Url"
+        type: "string"
+        description:
+          "Application source url"
+        format: "uri"
+
+      tags:
+        title: "Tags"
+        type: "array"
+        items:
+          type: "string"
+
+      urls:
+        title: "URLs"
+        type: "object"
+
+      version:
+        title: "Version"
+        type: "string"
+        description:
+          "Application version"
+
+  blacklist:
+    title: "Blacklists"
+    type: "object"
+    description:
+      "Schema for a blacklists"
+    required:
+      - name
+    properties:
+      name:
+        title: "Name"
+        type: "string"
+        description:
+          "A friendly name for the temporal rule set"
+        minLength: 1
+        maxLength: 128
+
+      number:
+        title: "Number"
+        type: "object"
+        description:
+          "Map of caller id number to block"
+        default: {}
+
+  bookkeeper:
+    title: "Bookkeepers"
+    type: "object"
+    description:
+      "The bookkeeper modules provided by Kazoo"
+    properties:
+      braintree:
+        type: "object"
+
+      local:
+        type: "object"
 
   call_waiting:
     title: "Call waiting"
@@ -7179,6 +10554,79 @@ definitions:
           - "first_name"
           - "last_name"
 
+  domain:
+    title: "domains"
+    type: "object"
+    description:
+      "Domain settings for white-labelling"
+    properties:
+      A:
+        title: "A"
+        type: "object"
+        description:
+          "A records"
+
+      CNAME:
+        title: "CNAME"
+        type: "object"
+        description:
+          "CNAME records"
+        $ref: '#/definitions/domain_host'
+
+      MX:
+        title: "MX"
+        type: "object"
+        description:
+          "MX records, typically for email servers"
+
+      NAPTR:
+        title: "NAPTR"
+        type: "object"
+        description:
+          "NAPTR records"
+
+      SRV:
+        title: "SRV"
+        type: "object"
+        description:
+          "SRV records"
+
+      TXT:
+        title: "TXT"
+        type: "object"
+        description:
+          "TXT records"
+
+  domain_host:
+    title: "Domain hosts"
+    type: "object"
+    description:
+      "Domain host settings for white-labelling"
+    properties:
+      .*[\{]{2}domain[\}]{2}.*:
+        title: "Host"
+        type: "object"
+        description:
+          "White-label template for hostname"
+        required:
+          - mapping
+          - name
+        properties:
+          mapping:
+            title: "Mapping"
+            type: "array"
+            description:
+              "List of hosts or IPs this host should resolve to"
+            minItems: 1
+            items:
+              type: "string"
+
+          name:
+            title: "Name"
+            type: "string"
+            description:
+              "Human-friendly name of the Host"
+
   fax:
     title: "Fax"
     type: "object"
@@ -7629,6 +11077,29 @@ definitions:
         default: []
         items:
           type: "string"
+
+  list:
+    title: "Lists"
+    type: "object"
+    description:
+      "Schema for a match list"
+    required:
+      - name
+    properties:
+      entries:
+        title: "Patterns"
+        type: "object"
+        description:
+          "Patterns used by match list"
+        default: {}
+
+      name:
+        title: "Name"
+        type: "string"
+        description:
+          "A friendly match list name"
+        minLength: 1
+        maxLength: 128
 
   media:
     title: "Media"
@@ -8457,6 +11928,248 @@ definitions:
         description:
           "To specify the position or job of the user"
 
+  queue:
+    title: "Call Queue"
+    type: "object"
+    description:
+      "Call Queues - FIFO call queues for serializing callers connecting to agents"
+    required:
+      - name
+    properties:
+      agent_ring_timeout:
+        title: "Agent Ring Timeout"
+        type: "integer"
+        description:
+          "In seconds, how long to ring an agent before progressing to the next agent available"
+        default: 15
+        minimum: 1
+
+      agent_wrapup_time:
+        title: "Agent Wrapup Time"
+        type: "integer"
+        description:
+          "Pre-defined wait period applied after an agent handles a customer call"
+        default: 0
+        minimum: 0
+
+      announce:
+        title: "Announce"
+        type: "string"
+        description:
+          "Media ID (or appropriate media URI) of media to play when caller is about to be connected."
+
+      caller_exit_key:
+        title: "Caller Exit Key"
+        type: "string"
+        description:
+          "Key caller can press while on hold to exit the queue and continue in the callflow"
+        enum:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+          - "6"
+          - "7"
+          - "8"
+          - "9"
+          - "*"
+          - "0"
+          - "#"
+
+      cdr_url:
+        title: "CDR Url"
+        type: "string"
+        description:
+          "An optional HTTP URL to POST the CDR"
+        format: "uri"
+
+      connection_timeout:
+        title: "Connection Timeout"
+        type: "integer"
+        description:
+          "In seconds, how long to try to connect the caller before progressing past the queue callflow action"
+        default: 3600
+        minimum: 0
+
+      enter_when_empty:
+        title: "Enter When Empty"
+        type: "boolean"
+        description:
+          "Allows a caller to enter a queue and wait when no agents are available"
+        default: true
+
+      max_priority:
+        title: "Maximum possible priority level"
+        type: "integer"
+        description:
+          "Maximum possible priority level queue will support. Can not be redefined for existing queue."
+        minimum: 0
+        maximum: 255
+
+      max_queue_size:
+        title: "Maximum Queue Size"
+        type: "integer"
+        description:
+          "How many callers are allowed to wait on hold in the queue (0 for no limit)"
+        default: 0
+
+      moh:
+        title: "Moh"
+        type: "string"
+        description:
+          "Media ID (or appropriate media URI) of media to play while caller is on hold."
+
+      name:
+        title: "Name"
+        type: "string"
+        description:
+          "A friendly name for the queue"
+        minLength: 1
+        maxLength: 128
+
+      record_caller:
+        title: "Record Caller"
+        type: "boolean"
+        description:
+          "When enabled, a caller's audio will be recorded"
+        default: false
+
+      recording_url:
+        title: "Recording URL"
+        type: "string"
+        description:
+          "An optional HTTP URL to PUT the call recording after the call
+          ends (and should respond to GET for retrieving the audio data)"
+        format: "uri"
+
+      ring_simultaneously:
+        title: "Ring Simultaneously"
+        type: "integer"
+        description:
+          "The number of agents to try in parallel when connecting a caller"
+        default: 1
+        minimum: 1
+
+      strategy:
+        title: "Strategy"
+        type: "string"
+        description:
+          "The queue strategy for connecting agents to callers"
+        default: "round_robin"
+        enum:
+          - "round_robin"
+          - "most_idle"
+
+  rate:
+    title: "Rate"
+    type: "object"
+    description:
+      "Defines a rate for a given prefix"
+    required:
+      - prefix
+      - rate_cost
+    properties:
+      carrier:
+        title: "Carrier Name"
+        type: "string"
+        description:
+          "Friendly name for the carrier providing this rate"
+
+      description:
+        title: "Description"
+        type: "string"
+        description:
+          "Friendly description of the rate"
+
+      internal_rate_cost:
+        title: "Internal Cost"
+        type: "integer"
+        description:
+          "The per-min rate charged by the upstream provider"
+        minimum: 0
+
+      iso_country_code:
+        title: "Country Code"
+        type: "string"
+        description:
+          "Country code this rate applies to"
+
+      options:
+        title: "Options"
+        type: "array"
+        description:
+          "List of options this rate is good for, to be matched against a customer's options"
+        items:
+          type: "string"
+
+      prefix:
+        title: "Prefix"
+        type: "integer"
+        description:
+          "E.164 prefix (ignoring the +)"
+
+      rate_cost:
+        title: "Cost"
+        type: "integer"
+        description:
+          "The per-min rate charged to the downstream customer"
+        minimum: 0
+
+      rate_increment:
+        title: "Increment (seconds)"
+        type: "integer"
+        description:
+          "The time slice, in seconds, to bill in."
+        default: 60
+        minimum: 10
+
+      rate_minimum:
+        title: "Minimum Increment (seconds)"
+        type: "integer"
+        description:
+          "The minimum time slice, in seconds to bill a call"
+        default: 60
+        minimum: 10
+
+      rate_name:
+        title: "Name"
+        type: "string"
+        description:
+          "Friendly name of the rate"
+
+      rate_nocharge_time:
+        title: "No Charge Time (seconds)"
+        type: "integer"
+        description:
+          "If the call duration is shorter than this threshold, the call is not billed"
+        default: 0
+        minimum: 0
+
+      rate_surcharge:
+        title: "Surcharge"
+        type: "integer"
+        description:
+          "The upfront cost of connecting the call"
+        default: 0
+        minimum: 0
+
+      routes:
+        title: "Routes"
+        type: "array"
+        description:
+          "List of regexs that match valid DIDs for this rate"
+        items:
+          type: "string"
+
+      weight:
+        title: "Weight"
+        type: "integer"
+        description:
+          "Ordering against other rates, 1 being most preferred, 100 being least preferred"
+        minimum: 1
+        maximum: 100
+
   resource:
     title: "Resource"
     type: "object"
@@ -8849,6 +12562,37 @@ definitions:
         minimum: 0
         maximum: 100
 
+  service_plan:
+    title: "Service Plan"
+    type: "object"
+    description:
+      "Describes services offered to sub-accounts"
+    required:
+      - name
+      - plan
+    properties:
+      bookkeepers:
+        type: "object"
+        $ref: '#/definitions/bookkeeper'
+
+      description:
+        type: "string"
+        description:
+          "Describes the service plan offering"
+
+      name:
+        title: "Service Plan Name"
+        type: "string"
+        description:
+          "A friendly name for the service plan"
+        minLength: 1
+        maxLength: 128
+
+      plan:
+        type: "object"
+        description:
+          "Outlines the service plan for various services"
+
   temporal_rule:
     title: "Temporal Rule"
     type: "object"
@@ -8973,6 +12717,68 @@ definitions:
         minItems: 1
         items:
           type: "string"
+
+  token_restriction:
+    title: "Token restrictions"
+    type: "object"
+    description:
+      "Schema for token restrictions"
+    properties:
+      restrictions:
+        type: "object"
+        required:
+          - ^\w+$
+        properties:
+          ^\w+$:
+            title: "Auth method"
+            type: "object"
+            description:
+              "Name of athentication metod used when creating token. '_' for match any auth method"
+            required:
+              - ^\w+$
+            properties:
+              ^\w+$:
+                title: "User priv level"
+                type: "object"
+                description:
+                  "User privelege level. '_' for match any priv level"
+                required:
+                  - ^\w+$
+                properties:
+                  ^\w+$:
+                    type: "array"
+                    items:
+                      title: "Endpoint"
+                      type: "object"
+                      description:
+                        "Endpoint (first path token) to wich apply restrictions. '_' for match any endpoint"
+                      properties:
+                        allowed_account:
+                          title: "Allowed accounts"
+                          type: "array"
+                          description:
+                            "Account allowed to match this item"
+                          items:
+                            type: "string"
+
+                        rules:
+                          title: "Rules"
+                          type: "object"
+                          description:
+                            "Rules applied to endpoint parameters"
+                          properties:
+                            ^[\w/#*]+$:
+                              title: "Verbs"
+                              type: "array"
+                              items:
+                                type: "string"
+                                enum:
+                                  - "GET"
+                                  - "PUT"
+                                  - "POST"
+                                  - "PATCH"
+                                  - "DELETE"
+                                  - "_"
 
   user:
     title: "User"
@@ -9649,3 +13455,129 @@ definitions:
           "The default timezone"
         minLength: 5
         maxLength: 32
+
+  whitelabel:
+    title: "Whitelabel"
+    type: "object"
+    description:
+      "Whitelabel settings"
+    properties:
+      company_name:
+        title: "Company Name"
+        type: "string"
+        description:
+          "The company name to display to users"
+
+      domain:
+        title: "Domain"
+        type: "string"
+        description:
+          "This is the whitelabeled domain that users will be entering to reach the UI"
+        format: "uri"
+
+      fake_api_url:
+        title: "API URL"
+        type: "string"
+        description:
+          "This is a whitelabeled API URL, primarily used by the developer application"
+        format: "uri"
+
+      hide_credits:
+        title: "Hide Credits?"
+        type: "boolean"
+        description:
+          "When checkef this hides the credits"
+        default: false
+
+      hide_powered:
+        title: "Hide Powered?"
+        type: "boolean"
+        description:
+          "When checked this hides the powered by 2600hz on the bottom right"
+        default: false
+
+      hide_registration:
+        title: "Hide Registration?"
+        type: "boolean"
+        description:
+          "When checked this hides the ability to register for a new account"
+        default: false
+
+      inbound_trunks_price:
+        title: "Inbound Trunk Price"
+        type: "string"
+        description:
+          "The price to show for inbound trunks, this is currently only for display purposes"
+
+      nav:
+        title: "Navigation Parameters"
+        type: "object"
+        description:
+          "Properties related to navigation in the UI"
+        properties:
+          help:
+            title: "Help URL"
+            type: "string"
+            description:
+              "The URL to use when the help link is clicked"
+            format: "uri"
+
+          learn_more:
+            title: "Learn More URL"
+            type: "string"
+            description:
+              "The URL to use when the 'Learn More!' link is clicked"
+            format: "uri"
+
+      outbound_trunks_price:
+        title: "Outbound Trunk Price"
+        type: "string"
+        description:
+          "The price to show for outbound trunks, this is currently only for display purposes"
+
+      port:
+        title: "Port Paramaters"
+        type: "object"
+        description:
+          "Parameters releated to whitelabeling port requests"
+        properties:
+          features:
+            title: "Features URL"
+            type: "string"
+            description:
+              "The URL to use when the features link is clicked"
+            format: "uri"
+
+          loa:
+            title: "LOA URL"
+            type: "string"
+            description:
+              "The URL to use when the LOA link is clicked"
+            format: "uri"
+
+          resporg:
+            title: "Resporg URL"
+            type: "string"
+            description:
+              "The URL to use when the resporg link is clicked"
+            format: "uri"
+
+          support_email:
+            title: "Support Email"
+            type: "string"
+            description:
+              "The support email address to display to the user"
+            format: "email"
+
+          terms:
+            title: "Terms URL"
+            type: "string"
+            description:
+              "The URL to use when the terms and conditions link is clicked"
+            format: "uri"
+
+      twoway_trunks_price:
+        title: "Twoway Trunk Price"
+        type: "string"
+        description:
+          "The price to show for twoway trunks, this is currently only for display purposes"
