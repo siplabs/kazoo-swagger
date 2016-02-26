@@ -1,0 +1,3 @@
+SwaggerTranslator.learn({
+
+});
