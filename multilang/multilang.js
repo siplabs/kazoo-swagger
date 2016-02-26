@@ -301,14 +301,6 @@ function editMode(default_lang) {
 			langs.forEach(function (lang, i, langs) {												// Each lang
 				class_item = (lang == default_lang) ? class_lang + " " + class_lang + "-active" : class_lang;			// Assign active
 				block_langs += "	<button id='lang_" + i + "' class='" + class_item + "'>" + lang + "</button>\n";	// Add button lang
-
-				block_langs += "	<script>\n";																		// Add
-				block_langs += "		jQuery('#lang_" + i + "').on('click', function () {\n";							// script
-				block_langs += "			localStorage.default_lang = '" + lang + "';\n";								// for
-				block_langs += "			localStorage.time = '" + (new Date()).getTime() + "';\n";					// switching
-				block_langs += "			window.location.href = window.location.href;\n";							// between
-				block_langs += "		});\n";																			// langs
-				block_langs += "	</script>\n";
 			});
 		} else {
 			block_langs += "	<div class='" + class_error + "'>" + error_message + "</div>\n";						// Add error message
@@ -325,7 +317,7 @@ function editMode(default_lang) {
 				block_langs += "		jQuery('#lang_" + i + "').on('click', function () {\n";						// script
 				block_langs += "			localStorage.default_lang = '" + lang + "';\n";							// for
 				block_langs += "			localStorage.time = '" + (new Date()).getTime() + "';\n";				// switching
-				block_langs += "			window.location.href = window.location.href;\n";						// between
+				block_langs += "			window.location.reload();\n";											// between
 				block_langs += "		});\n";																		// langs
 			});
 			block_langs += "		});\n";
